@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
 
+
+import Wrapper from "./components/Wrapper";
+import { Display } from "./components/Display";
+import { History } from "./components/History";
+import { ButtonBox } from "./components/ButtonBox";
+import { Button } from "./components/Button";
+import { HistoryContext } from "./context/HistoryContext";
 function App() {
+  const buttons = [
+    ["C", "+/-", "%", "/"],
+    [1, 2, 3, "x"],
+    [4, 5, 6, "+"],
+    [7, 8, 9, "-"],
+    [".", 0, "="],
+  ];
+const historyMode = false
+// const toggleHistory = setHistoryMode(!historyMode)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <HistoryContext.Provider value={historyMode}>
+        <Wrapper>
+          <History />
+          <Display />
+          <ButtonBox>
+            {buttons.flat().map((button, index) => {
+              return <Button value={button} key={index} />;
+            })}
+          </ButtonBox>
+        </Wrapper>
+      </HistoryContext.Provider>
     </div>
   );
 }
